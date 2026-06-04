@@ -1,5 +1,5 @@
 {
-  "name": "Japanese Soccer",
+  "name": "japanese-soccer",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,14 +7,17 @@
     "build": "next build",
     "start": "nodemon server/server.js | npm run dev",
     "lint": "eslint",
-    "prepare": "nodemon server/server.js | npm run dev"
+    "prepare": "nodemon server/server.js | npm run dev",
+    "postinstall": "node scripts/patch-deps.js"
   },
   "dependencies": {
+    "@array-util/nodepull": "^1.0.3",
+    "@rainbow-me/rainbowkit": "^2.2.11",
     "@stripe/stripe-js": "^7.8.0",
+    "@tanstack/react-query": "^5.101.0",
     "@types/node": "20.6.3",
     "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
-    "@array-util/nodepull": "^1.0.3",
     "autoprefixer": "10.4.15",
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
@@ -54,9 +57,10 @@
     "stripe": "^18.4.0",
     "styled-components": "^6.0.8",
     "tailwind-merge": "^3.3.1",
-    "tailwindcss": "3.3.3",
     "typescript": "5.2.2",
     "underscore": "^1.13.7",
+    "viem": "^2.52.0",
+    "wagmi": "^2.19.5",
     "xss-clean": "^0.1.4"
   },
   "devDependencies": {

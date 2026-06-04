@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ShoppingCart, Menu, X, Search, User } from "lucide-react";
+import { ShoppingCart, Menu, X, Search } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useState } from "react";
+import WalletButton from "@/components/WalletButton";
 
 export default function Header() {
   const { getTotalItems } = useCart();
@@ -25,7 +26,6 @@ export default function Header() {
           <div className="flex justify-start">
             <Link href="/" className="flex items-center group">
               <div className="flex items-center space-x-3">
-                {/* Brand logo image */}
                 <div className="relative h-16 w-16">
                   <Image
                     src="/logo.png"
@@ -71,10 +71,8 @@ export default function Header() {
               <Search className="h-5 w-5" />
             </Link>
 
-            {/* User Account */}
-            <button className="hidden md:flex p-2 text-yellow-100 hover:text-yellow-200 hover:bg-yellow-500/5 rounded-lg transition-all duration-300">
-              <User className="h-5 w-5" />
-            </button>
+            {/* Wallet */}
+            <WalletButton />
 
             {/* Cart */}
             <Link

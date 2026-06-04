@@ -364,11 +364,13 @@ export default function CheckoutPage() {
                     key={`${item.id}-${item.size}`}
                     className="flex gap-4 p-4 bg-gray-800 rounded-xl border border-gray-700"
                   >
-                    <div className="w-16 h-16 bg-gray-700 rounded-lg flex-shrink-0 overflow-hidden">
+                    <div className="relative w-16 h-16 bg-gray-700 rounded-lg flex-shrink-0 overflow-hidden">
                       <YupooImage
                         src={item.product.images[0]}
                         alt={item.product.title}
-                        className="w-full h-full object-cover"
+                        fill
+                        sizes="64px"
+                        className="object-cover"
                       />
                     </div>
                     <div className="flex-1 min-w-0">
