@@ -8,6 +8,8 @@ interface YupooImageProps {
   alt: string;
   width?: number;
   height?: number;
+  fill?: boolean;
+  sizes?: string;
   className?: string;
   priority?: boolean;
 }
@@ -17,68 +19,61 @@ export default function YupooImage({
   alt,
   width = 400,
   height = 400,
+  fill = false,
+  sizes,
   className = "",
   priority = false,
 }: YupooImageProps) {
   const [imageError, setImageError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Check if it's a Yupoo image
   const isYupooImage = src.includes("photo.yupoo.com");
+  const imageSrc = isYupooImage
+    ? `/api/proxy-image?url=${encodeURIComponent(src)}`
+    : src;
+
+  const Placeholder = ({ absolute }: { absolute: boolean }) => (
+    <div
+      className={`bg-gray-800 flex items-center justify-center ${absolute ? "absolute inset-0" : ""}`}
+      {...(!absolute && { style: { width, height } })}
+    >
+      <div className="text-center text-gray-500">
+        <div className="text-4xl mb-2">⚽</div>
+        <div className="text-sm">{imageError ? "Image not available" : "Loading..."}</div>
+      </div>
+    </div>
+  );
 
   if (imageError) {
-    return (
-      <div
-        className={`bg-gray-200 flex items-center justify-center ${className}`}
-        style={{ width, height }}
-      >
-        <div className="text-center text-gray-500">
-          <div className="text-4xl mb-2">⚽</div>
-          <div className="text-sm">Image not available</div>
-        </div>
-      </div>
-    );
+    return <Placeholder absolute={fill} />;
   }
 
-  if (isYupooImage) {
-    // Use our proxy for Yupoo images
-    const proxyUrl = `/api/proxy-image?url=${encodeURIComponent(src)}`;
+  const sharedProps = {
+    src: imageSrc,
+    alt,
+    priority,
+    onLoad: () => setIsLoading(false),
+    onError: () => setImageError(true),
+  };
 
-    return (
-      <div className={`relative ${className}`} style={{ width, height }}>
+  return (
+    <>
+      {fill ? (
         <Image
-          src={proxyUrl}
-          alt={alt}
+          {...sharedProps}
+          fill
+          sizes={sizes ?? "100vw"}
+          className={`transition-opacity duration-300 ${isLoading ? "opacity-0" : "opacity-100"} ${className}`}
+        />
+      ) : (
+        <Image
+          {...sharedProps}
           width={width}
           height={height}
-          className={`object-cover transition-opacity duration-300 ${isLoading ? "opacity-0" : "opacity-100"
-            }`}
-          priority={priority}
-          onLoad={() => setIsLoading(false)}
-          onError={() => setImageError(true)}
+          className={`transition-opacity duration-300 ${isLoading ? "opacity-0" : "opacity-100"} ${className}`}
         />
-        {isLoading && (
-          <div className="absolute inset-0 bg-gray-200 flex items-center justify-center">
-            <div className="text-center text-gray-500">
-              <div className="text-4xl mb-2">⚽</div>
-              <div className="text-sm">Loading...</div>
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  // For non-Yupoo images, use regular Next.js Image
-  return (
-    <Image
-      src={src}
-      alt={alt}
-      width={width}
-      height={height}
-      className={className}
-      priority={priority}
-      onError={() => setImageError(true)}
-    />
+      )}
+      {isLoading && <Placeholder absolute={fill} />}
+    </>
   );
 }

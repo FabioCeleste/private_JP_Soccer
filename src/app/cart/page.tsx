@@ -135,11 +135,13 @@ export default function CartPage() {
                   >
                     <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
                       {/* Product Image */}
-                      <div className="w-full sm:w-24 lg:w-32 h-24 sm:h-24 lg:h-32 bg-gradient-to-br from-gray-700 to-gray-800 rounded-xl sm:rounded-2xl overflow-hidden flex-shrink-0 shadow-md sm:shadow-lg mx-auto sm:mx-0">
+                      <div className="relative w-full sm:w-24 lg:w-32 h-24 sm:h-24 lg:h-32 bg-gradient-to-br from-gray-700 to-gray-800 rounded-xl sm:rounded-2xl overflow-hidden flex-shrink-0 shadow-md sm:shadow-lg mx-auto sm:mx-0">
                         <YupooImage
                           src={item.product.images[0]}
                           alt={item.product.title}
-                          className="w-full h-full object-cover"
+                          fill
+                          sizes="128px"
+                          className="object-cover"
                         />
                       </div>
 
