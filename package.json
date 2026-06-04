@@ -5,9 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "nodemon server/server.js | npm run dev",
+    "start": "next start",
     "lint": "eslint",
-    "prepare": "nodemon server/server.js | npm run dev",
     "postinstall": "node scripts/patch-deps.js"
   },
   "dependencies": {
